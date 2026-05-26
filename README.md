@@ -82,9 +82,11 @@ or with a stack trace pasted in:
 /fix TypeError: Cannot read properties of undefined (reading 'userId') at middleware.ts:42
 ```
 
-### Auto-Update
+### Update
 
-Auto-update is **disabled by default**. To enable, pass `--update` to your command or set `SKILLS_AUTO_UPDATE: true` in your project CLAUDE.md.
+```bash
+npx skills update fix -y
+```
 
 ### Claude Code plugin
 
