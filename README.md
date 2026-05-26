@@ -1,17 +1,17 @@
-# 🔎 hunt.md
+# 🔎 fix.md
 
-A systematic bug-hunting workflow for Claude Code. Not a vibe-based "just fix it" — a disciplined instrument-observe-narrow loop that forces the model to confirm root cause before touching production code.
+A systematic bug-fixing workflow for Claude Code. Not a vibe-based "just fix it" — a disciplined instrument-observe-narrow loop that forces the model to confirm root cause before touching production code.
 
 Explore first, instrument strategically, read the logs, fix surgically, verify clean.
 
-[![Status](https://shieldcn.dev/badge/status-experimental-orange.svg)](https://github.com/amajorai/hunt.md)
-[![Stars](https://shieldcn.dev/github/stars/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
-[![Forks](https://shieldcn.dev/github/forks/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
-[![License](https://shieldcn.dev/github/license/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
-[![Issues](https://shieldcn.dev/github/issues/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md/issues)
+[![Status](https://shieldcn.dev/badge/status-experimental-orange.svg)](https://github.com/amajorai/fix.md)
+[![Stars](https://shieldcn.dev/github/stars/amajorai/fix.md.svg)](https://github.com/amajorai/fix.md)
+[![Forks](https://shieldcn.dev/github/forks/amajorai/fix.md.svg)](https://github.com/amajorai/fix.md)
+[![License](https://shieldcn.dev/github/license/amajorai/fix.md.svg)](https://github.com/amajorai/fix.md)
+[![Issues](https://shieldcn.dev/github/issues/amajorai/fix.md.svg)](https://github.com/amajorai/fix.md/issues)
 
 > [!NOTE]
-> These skills have been built and tested with **Claude Code**. Codex support is untested. If you try them on Codex, we'd love your help. [Open an issue](https://github.com/amajorai/hunt.md/issues) to share what works and what doesn't.
+> These skills have been built and tested with **Claude Code**. Codex support is untested. If you try them on Codex, we'd love your help. [Open an issue](https://github.com/amajorai/fix.md/issues) to share what works and what doesn't.
 
 ## Works great with
 
@@ -24,7 +24,7 @@ Explore first, instrument strategically, read the logs, fix surgically, verify c
 
 | Skill | What it does |
 |-------|-------------|
-| [`/hunt`](skills/hunt/SKILL.md) | Full 4-phase pipeline: understand+explore loop (one question at a time, search first), instrument+analyze loop (targeted logs, auto-read output, iterate until root cause confirmed), surgical fix, verify clean |
+| [`/fix`](skills/fix/SKILL.md) | Full 4-phase pipeline: understand+explore loop (one question at a time, search first), instrument+analyze loop (targeted logs, auto-read output, iterate until root cause confirmed), surgical fix, verify clean |
 
 ## How it works
 
@@ -55,31 +55,31 @@ flowchart TD
 
 Most LLM bug fixes are educated guesses. They look plausible, pass review, and sometimes even pass tests — then the same bug comes back in a slightly different form because the root cause was never confirmed.
 
-`/hunt` forces confirmation before the fix:
+`/fix` forces confirmation before the fix:
 
 1. **Explore** the codebase to form hypotheses (parallel subagents, no guessing from memory)
 2. **Instrument** at the boundary of the suspected failure — inputs in, outputs out, state at branch points
 3. **Read the logs** — if the hypothesis is wrong, instrument deeper; if right, stop and fix
 4. **Fix only what the logs proved** — surgical, minimal, justified
 
-The instrumentation is labeled `[HUNT]` and fully removed before the fix is committed. No debug logs leak to production.
+The instrumentation is labeled `[FIX]` and fully removed before the fix is committed. No debug logs leak to production.
 
 ## Quickstart
 
 ```bash
-npx skills add amajorai/hunt.md
+npx skills add amajorai/fix.md
 ```
 
 Then in Claude Code:
 
 ```
-/hunt the login form submits but the user session is never created
+/fix the login form submits but the user session is never created
 ```
 
 or with a stack trace pasted in:
 
 ```
-/hunt TypeError: Cannot read properties of undefined (reading 'userId') at middleware.ts:42
+/fix TypeError: Cannot read properties of undefined (reading 'userId') at middleware.ts:42
 ```
 
 ### Auto-Update
@@ -89,18 +89,18 @@ Auto-update is **disabled by default**. To enable, pass `--update` to your comma
 ### Claude Code plugin
 
 ```
-/plugin marketplace add amajorai/hunt.md
-/plugin install huntmd@amajorai
+/plugin marketplace add amajorai/fix.md
+/plugin install fixmd@amajorai
 ```
 
-Invoke as `/huntmd:hunt <bug description>`.
+Invoke as `/fixmd:fix <bug description>`.
 
 ## Star History
 
-<a href="https://www.star-history.com/#amajorai/hunt.md&Date">
+<a href="https://www.star-history.com/#amajorai/fix.md&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=amajorai/hunt.md&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=amajorai/hunt.md&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=amajorai/hunt.md&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=amajorai/fix.md&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=amajorai/fix.md&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=amajorai/fix.md&type=Date" />
  </picture>
 </a>

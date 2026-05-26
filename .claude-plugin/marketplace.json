@@ -1,12 +1,12 @@
 {
-  "name": "huntmd",
+  "name": "fixmd",
   "owner": {
     "name": "Jia Wei Ng"
   },
   "plugins": [
     {
-      "name": "huntmd",
-      "description": "Systematic bug-hunting workflow. Instruments code with targeted logging, reads logs to pinpoint root cause, makes a surgical fix, and verifies clean.",
+      "name": "fixmd",
+      "description": "Systematic bug-fixing workflow. Instruments code with targeted logging, reads logs to pinpoint root cause, makes a surgical fix, and verifies clean.",
       "source": "."
     }
   ]
