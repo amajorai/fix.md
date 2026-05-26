@@ -1,0 +1,11 @@
+{
+  "name": "huntmd",
+  "description": "Systematic bug-hunting workflow. Instruments code with targeted logging, reads logs to pinpoint root cause, makes a surgical fix, and verifies clean.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jia Wei Ng"
+  },
+  "repository": "https://github.com/amajorai/hunt.md",
+  "license": "MIT",
+  "keywords": ["workflow", "debug", "bug", "hunt", "logging", "troubleshoot", "fix"]
+}
