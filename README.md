@@ -4,7 +4,7 @@ A systematic bug-hunting workflow for Claude Code. Not a vibe-based "just fix it
 
 Explore first, instrument strategically, read the logs, fix surgically, verify clean.
 
-[![Status](https://shieldcn.dev/badge/status-beta-blue.svg)](https://github.com/amajorai/hunt.md)
+[![Status](https://shieldcn.dev/badge/status-experimental-orange.svg)](https://github.com/amajorai/hunt.md)
 [![Stars](https://shieldcn.dev/github/stars/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
 [![Forks](https://shieldcn.dev/github/forks/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
 [![License](https://shieldcn.dev/github/license/amajorai/hunt.md.svg)](https://github.com/amajorai/hunt.md)
