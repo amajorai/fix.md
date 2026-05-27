@@ -31,6 +31,23 @@ or with a stack trace pasted in:
 /fix TypeError: Cannot read properties of undefined (reading 'userId') at middleware.ts:42
 ```
 
+### Update
+
+```bash
+# Update this skill
+npx skills update fix
+
+# Update all installed skills (interactive scope prompt)
+npx skills update
+
+# Update only global or project skills
+npx skills update -g
+npx skills update -p
+
+# Non-interactive (auto-detects scope)
+npx skills update -y
+```
+
 ### Claude Code plugin
 
 ```
