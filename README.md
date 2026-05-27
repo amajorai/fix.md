@@ -48,6 +48,7 @@ Invoke as `/fixmd:fix <bug description>`.
 
 ## Works great with
 
+- 👻 **[spec.md](https://github.com/amajorai/spec.md)** to turn a vague "something is broken" report into an atomic, scoped fix issue with clear acceptance criteria before handing it to `/fix`.
 - 📦 **[ship.md](https://github.com/amajorai/ship.md)** to build and ship new features once the bugs are squashed.
 - 🪅 **[vibe.md](https://github.com/amajorai/vibe.md)** to spin up your production server and deploy pipeline.
 - 🎉 **[party.md](https://github.com/amajorai/party.md)** to run autonomously 24/7 — drop issues into a board and let it hunt bugs automatically.
