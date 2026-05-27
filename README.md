@@ -16,7 +16,7 @@ Explore first, instrument strategically, read the logs, fix surgically, verify c
 ## Quickstart
 
 ```bash
-npx skills add amajorai/fix.md
+npx skills add -g amajorai/fix.md
 ```
 
 Then in Claude Code:
@@ -29,12 +29,6 @@ or with a stack trace pasted in:
 
 ```
 /fix TypeError: Cannot read properties of undefined (reading 'userId') at middleware.ts:42
-```
-
-### Update
-
-```bash
-npx skills update fix -y
 ```
 
 ### Claude Code plugin
