@@ -222,41 +222,17 @@ Mark **Fix** `completed`.
 
 ## Phase 4: Verify
 
-Mark **Verify** `in_progress`. Run an in-session goal loop (max 5 passes) - do not spawn a subagent.
+Mark **Verify** `in_progress`. Spawn an Opus agent with the full context from the previous phases (max 5 passes):
 
-Each pass, in order:
+```
+Agent({
+  subagent_type: "claude",
+  model: "opus",
+  prompt: "Verify this bug fix. Context - reproduction steps from Phase 1: <steps>, affected scope: <scope>, test written in Phase 3: <test path, or 'no test - <reason>'>. Has UI surface: <yes/no>. Each pass in order: (1) Run the exact reproduction steps - the bug must no longer occur. (2) If the bug has a UI surface, check if the e2e skill is available (`npx --yes skills list 2>/dev/null | grep e2e && echo E2E_AVAILABLE || echo NOT_INSTALLED`) and invoke `Skill({ skill: 'e2e', args: '<repro steps> --verify-fix' })`; if not available, use Computer Use to drive the repro steps in the real app and observe the result. Skip only if the bug is pure backend with no UI surface - state this explicitly. (3) Re-run against all affected scope variants from Phase 1 - the fix must hold across all of them. (4) Run the Phase 3 test - must pass. (5) Run the full test suite, lint, and typecheck - all green. (6) Scan for leftover instrumentation: `git grep -n '[FIX]'` must return empty; also scan diff for stray console.log/print/dbg!/var_dump. If steps 1-3 fail - report the failure and stop, do not patch reactively. If steps 4-6 fail - fix directly and start a new pass from step 1. After 5 passes with failures still present - report what failed and stop.",
+})
+```
 
-1. **Run the exact reproduction steps from Phase 1.** The bug must no longer occur. This comes before the test suite - a green test suite means nothing if the original repro still fails.
-2. **Automated UI verification - drive the actual app.** A passing unit test is not the same as a real user clicking through the broken flow. Check if the `e2e` skill is available:
-
-   ```bash
-   npx --yes skills list 2>/dev/null | grep -E "(^|[^a-z0-9_-])e2e([^a-z0-9_-]|$)" && echo "E2E_AVAILABLE" || echo "E2E_NOT_INSTALLED"
-   ```
-
-   - **If `e2e` is available** - invoke it to drive the exact Phase 1 reproduction steps through the real UI and assert the bug is gone:
-     ```
-     Skill({ skill: "e2e", args: "<reproduction steps from Phase 1> --verify-fix" })
-     ```
-     The `--verify-fix` flag tells the e2e skill to skip setup/planning and run directly against the described flow. **Read its output carefully** - only count this step as passing when the skill explicitly reports all tests green.
-   - **If `e2e` is not installed** - fall back to Claude Computer Use: the agent itself drives the real desktop or browser using its own vision. Launch the app, perform the Phase 1 reproduction steps via screenshots and clicks/keystrokes, observe the result, and report whether the bug is gone. Note in `FIX NOTES` that this was a Computer-Use-driven run.
-   - **Skip this step only** if the bug is pure backend logic with no UI surface at all (e.g. a CLI flag parser, a cron job, a queue consumer with no user-facing screen). State explicitly in the Completion Report: *"UI verification skipped - bug has no UI surface."*
-
-   If this step fails, treat it like step 1 failing - go back to Phase 2, do not patch reactively.
-3. **Re-run against the affected scope from Phase 1.** Other inputs, environments, users, or platforms that exhibited the bug. The fix must hold across all of them, not just the one you reproduced.
-4. **Run the test you wrote in Phase 3.** It must pass. If you documented "no test" in the Phase 3 checklist, skip this step and re-execute the manual repro you noted in its place.
-5. **Run the full test suite, lint, and typecheck.** All green. If the project has no configured lint or typecheck (no `package.json` script, no `tsconfig.json`, no `ruff`/`eslint`/equivalent config), skip that specific check and note its absence in `FIX NOTES` - do not invent a tool the repo does not use.
-6. **Scan for leftover instrumentation in the diff.** Use both staged and unstaged plus untracked-file scans, because `git diff` alone misses staged and untracked content:
-   ```bash
-   { git diff 2>/dev/null; git diff --cached 2>/dev/null; git ls-files --others --exclude-standard 2>/dev/null | xargs -I{} cat {} 2>/dev/null; } | grep -nE "\[FIX\]|console\.log|fmt\.Println|dbg!|var_dump\("
-   ```
-   Output must be empty. The `2>/dev/null` guards handle non-git directories, detached HEAD with no tracked files, and empty untracked lists - in any of those cases the pipeline produces no input and the `grep` is correctly empty. Also re-run the Phase 3 cleanup-gate search to be sure nothing was reintroduced. If you are not in a git repo at all (the working directory is unversioned), fall back to the scoped `grep -rn` from the Phase 3 cleanup gate as your only leftover-scan signal.
-7. **Outcome of the pass.**
-   - If steps 1-6 all pass, exit the loop successfully.
-   - If **step 1 fails** (the original repro still triggers the bug), the fix did not actually address the root cause. Do **not** patch reactively in Phase 4 - this is exactly the "guess a fix" failure mode the skill exists to prevent. Re-open the **Instrument** task, return to Phase 2, and let new logs prove what the previous instrumentation missed.
-   - If **step 2 fails** (the automated UI run still reproduces the bug), same rule as step 1 - the fix does not hold under a real user interaction. Re-open **Instrument** and return to Phase 2 with the UI evidence in hand.
-   - If **step 3 fails** (regression on an affected-scope variant the repro did not cover), same rule - return to Phase 2 to instrument that variant.
-   - If **steps 4-6 fail** (test, lint, typecheck, or leftover instrumentation), these are mechanical - fix directly and **start a new pass from step 1**. One pass is one full sweep through 1-6, not a single step. Count only complete passes against the cap.
-8. After 5 failed passes, stop and surface the failure mode, what you tried, and a recommendation to the user. Do not loop further.
+**If the agent reports a step 1, 2, or 3 failure:** the fix did not address the root cause. Re-open the **Instrument** task and return to Phase 2 with the agent's report as new evidence. Do not patch reactively.
 
 Mark **Verify** `completed`.
 
