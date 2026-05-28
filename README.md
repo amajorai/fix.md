@@ -65,7 +65,7 @@ Invoke as `/fixmd:fix <bug description>`.
 - 🎉 **[party.md](https://github.com/amajorai/party.md)** to run autonomously 24/7 — drop issues into a board and let it hunt bugs automatically.
 - 🎬 **[replay.md](https://github.com/amajorai/replay.md)** to record video proof of the bug before and after the fix.
 - 🧪 **[sandbox.md](https://github.com/amajorai/sandbox.md)** to reproduce bugs in a fresh isolated sandbox — no polluted local state, exact environment control.
-- 📋 **[ctx.md](https://github.com/amajorai/ctx.md)** to orient the debugging agent before it dives in — knowing the codebase layout cuts Phase 1 explore time significantly.
+- 📋 **[context.md](https://github.com/amajorai/context.md)** to orient the debugging agent before it dives in — knowing the codebase layout cuts Phase 1 explore time significantly.
 
 ## Skills
 
